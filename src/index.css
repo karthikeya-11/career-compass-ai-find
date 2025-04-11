@@ -43,6 +43,10 @@
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+
+    --custom-purple: #9b87f5;
+    --custom-orange: #F97316;
+    --custom-bright-blue: #33C3F0;
   }
 
   .dark {
@@ -91,6 +95,7 @@
 
   body {
     @apply bg-background text-foreground antialiased;
+    scroll-behavior: smooth;
   }
   
   .glass-card {
@@ -127,5 +132,124 @@
     );
     transform: translateX(-100%);
     animation: shimmer 1.5s infinite;
+  }
+  
+  /* Animation Keyframes */
+  @keyframes shimmer {
+    100% {
+      transform: translateX(100%);
+    }
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes scaleIn {
+    from {
+      transform: scale(0.95);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+  
+  @keyframes slideInFromRight {
+    from {
+      transform: translateX(30px);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+  
+  @keyframes slideInFromLeft {
+    from {
+      transform: translateX(-30px);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+  
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.05);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  
+  /* Animation Classes */
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease forwards;
+  }
+  
+  .animate-scale-in {
+    animation: scaleIn 0.5s ease forwards;
+  }
+  
+  .animate-slide-in-right {
+    animation: slideInFromRight 0.5s ease forwards;
+  }
+  
+  .animate-slide-in-left {
+    animation: slideInFromLeft 0.5s ease forwards;
+  }
+  
+  .animate-pulse-light {
+    animation: pulse 2s infinite;
+  }
+  
+  /* Delay Classes */
+  .delay-0 {
+    animation-delay: 0s;
+  }
+  
+  .delay-150 {
+    animation-delay: 0.15s;
+  }
+  
+  .delay-300 {
+    animation-delay: 0.3s;
+  }
+  
+  /* Hover Effects */
+  .hover-lift {
+    @apply transition-transform duration-300;
+  }
+  
+  .hover-lift:hover {
+    transform: translateY(-5px);
+  }
+  
+  .hover-scale {
+    @apply transition-transform duration-300;
+  }
+  
+  .hover-scale:hover {
+    transform: scale(1.05);
+  }
+  
+  /* Micro Interactions */
+  .btn-bounce:active {
+    transform: scale(0.96);
   }
 }
