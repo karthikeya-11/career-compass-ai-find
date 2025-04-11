@@ -61,7 +61,7 @@ const FilterSection = ({ onFilterChange, className }: FilterSectionProps) => {
     <div className={cn("relative", className)}>
       <Button 
         variant="outline" 
-        className="flex items-center gap-2 mb-4"
+        className="flex items-center gap-2 mb-4 glass-card"
         onClick={toggleFilters}
       >
         {isExpanded ? <X size={16} /> : <Filter size={16} />}
@@ -69,7 +69,7 @@ const FilterSection = ({ onFilterChange, className }: FilterSectionProps) => {
       </Button>
       
       <div className={cn(
-        "transition-all duration-300 overflow-hidden bg-white dark:bg-gray-900 rounded-xl border shadow-sm",
+        "transition-all duration-300 overflow-hidden glass-card rounded-xl border shadow-sm",
         {
           "opacity-100 max-h-96": isExpanded,
           "opacity-0 max-h-0 pointer-events-none": !isExpanded
@@ -77,7 +77,7 @@ const FilterSection = ({ onFilterChange, className }: FilterSectionProps) => {
       )}>
         <div className="p-4">
           <Tabs defaultValue="filters" className="w-full">
-            <TabsList className="grid w-full grid-cols-2">
+            <TabsList className="grid w-full grid-cols-2 glass-card">
               <TabsTrigger value="filters">Filters</TabsTrigger>
               <TabsTrigger value="sort">Sort</TabsTrigger>
             </TabsList>
@@ -136,28 +136,28 @@ const FilterSection = ({ onFilterChange, className }: FilterSectionProps) => {
                 <div className="grid grid-cols-2 gap-2">
                   <Button 
                     variant={filters.sortBy === "relevance" ? "default" : "outline"} 
-                    className="w-full"
+                    className={cn("w-full", filters.sortBy !== "relevance" && "glass-btn")}
                     onClick={() => handleSortChange("relevance")}
                   >
                     Relevance
                   </Button>
                   <Button 
                     variant={filters.sortBy === "deadline" ? "default" : "outline"} 
-                    className="w-full"
+                    className={cn("w-full", filters.sortBy !== "deadline" && "glass-btn")}
                     onClick={() => handleSortChange("deadline")}
                   >
                     Deadline
                   </Button>
                   <Button 
                     variant={filters.sortBy === "recent" ? "default" : "outline"} 
-                    className="w-full"
+                    className={cn("w-full", filters.sortBy !== "recent" && "glass-btn")}
                     onClick={() => handleSortChange("recent")}
                   >
                     Most Recent
                   </Button>
                   <Button 
                     variant={filters.sortBy === "popular" ? "default" : "outline"} 
-                    className="w-full"
+                    className={cn("w-full", filters.sortBy !== "popular" && "glass-btn")}
                     onClick={() => handleSortChange("popular")}
                   >
                     Popular

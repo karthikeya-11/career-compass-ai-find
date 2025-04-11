@@ -79,7 +79,7 @@ const SearchBar = ({ onSearch, isLoading = false, className }: SearchBarProps) =
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          className="w-full px-4 py-4 pl-12 text-lg bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200"
+          className="w-full px-4 py-4 pl-12 text-lg bg-white/80 dark:bg-gray-800/80 backdrop-blur-md border border-gray-200/50 dark:border-gray-700/30 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200"
           placeholder={query === '' ? typingEffect : "What are you looking for?"}
         />
         {query === '' && (
@@ -91,7 +91,7 @@ const SearchBar = ({ onSearch, isLoading = false, className }: SearchBarProps) =
         <Button 
           type="submit" 
           className={cn(
-            "absolute right-2 top-1/2 transform -translate-y-1/2 bg-primary hover:bg-primary/90 text-white px-6 py-2 rounded-lg transition-all", 
+            "absolute right-2 top-1/2 transform -translate-y-1/2 bg-primary hover:bg-primary/90 text-white px-6 py-2 rounded-lg transition-all backdrop-blur-md", 
             {"animate-pulse-light": isLoading}
           )}
           disabled={isLoading}

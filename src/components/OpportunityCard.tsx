@@ -32,6 +32,19 @@ const OpportunityCard = ({ opportunity, className }: OpportunityCardProps) => {
   const handleSave = () => {
     setIsSaved(!isSaved);
     
+    // Play a subtle sound effect when saved (optional)
+    if (typeof window !== 'undefined') {
+      try {
+        const audioEffect = new Audio(isSaved ? '/sounds/unsave.mp3' : '/sounds/save.mp3');
+        audioEffect.volume = 0.2;
+        audioEffect.play().catch(() => {
+          // Silently fail if browser blocks autoplay
+        });
+      } catch (e) {
+        // Ignore audio errors
+      }
+    }
+    
     toast({
       title: isSaved ? "Removed from saved" : "Saved successfully",
       description: isSaved ? "The opportunity has been removed from your saved items." : "The opportunity has been added to your saved items.",
@@ -97,9 +110,11 @@ const OpportunityCard = ({ opportunity, className }: OpportunityCardProps) => {
       "relative rounded-xl p-5 transition-all duration-300 hover:shadow-md", 
       cardClassName(),
       className,
-      "group"
+      "group hover:-translate-y-1"
     )}>
-      <div className="flex justify-between items-start">
+      <div className="absolute inset-0 bg-white/10 dark:bg-gray-900/10 rounded-xl backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+      
+      <div className="flex justify-between items-start relative">
         <div className="flex items-center gap-2">
           <div className="bg-white dark:bg-gray-800 rounded-full p-2 shadow-sm group-hover:scale-110 transition-transform duration-300">
             {getIcon()}
@@ -109,12 +124,12 @@ const OpportunityCard = ({ opportunity, className }: OpportunityCardProps) => {
             <p className="text-sm text-muted-foreground">{opportunity.organization}</p>
           </div>
         </div>
-        <Badge variant="outline" className="flex items-center gap-1 animate-fade-in">
+        <Badge variant="outline" className="flex items-center gap-1 animate-fade-in bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm">
           {getEmoji()} {opportunity.type.charAt(0).toUpperCase() + opportunity.type.slice(1)}
         </Badge>
       </div>
       
-      <div className="mt-4 space-y-2">
+      <div className="mt-4 space-y-2 relative">
         <div className="flex items-center gap-2 text-sm text-muted-foreground">
           <MapPin className="h-4 w-4" /> 
           <span>{opportunity.location}</span>
@@ -125,18 +140,18 @@ const OpportunityCard = ({ opportunity, className }: OpportunityCardProps) => {
         </div>
       </div>
       
-      <div className={cn("mt-4 transition-all duration-300 overflow-hidden", {
+      <div className={cn("mt-4 transition-all duration-300 overflow-hidden relative", {
         "h-0 opacity-0": !isExpanded,
         "opacity-100 max-h-32": isExpanded
       })}>
         <p className="text-sm">{opportunity.description}</p>
       </div>
       
-      <div className="mt-4 flex justify-between items-center">
+      <div className="mt-4 flex justify-between items-center relative">
         <Button
           variant="ghost"
           size="sm"
-          className="text-muted-foreground hover:text-foreground group-hover:text-primary/80 transition-colors"
+          className="text-muted-foreground hover:text-foreground group-hover:text-primary/80 transition-colors btn-bounce"
           onClick={() => setIsExpanded(!isExpanded)}
         >
           {isExpanded ? "View Less" : "View More"}
@@ -150,7 +165,7 @@ const OpportunityCard = ({ opportunity, className }: OpportunityCardProps) => {
                   variant="outline"
                   size="icon"
                   className={cn(
-                    "transition-all duration-300",
+                    "transition-all duration-300 backdrop-blur-sm",
                     {
                       "text-red-500 bg-red-50 dark:bg-red-950/30 hover:bg-red-100": isSaved,
                     }
@@ -175,7 +190,7 @@ const OpportunityCard = ({ opportunity, className }: OpportunityCardProps) => {
                   variant="outline" 
                   size="icon"
                   className={cn(
-                    "transition-all duration-300",
+                    "transition-all duration-300 backdrop-blur-sm",
                     {
                       "text-green-500 bg-green-50 dark:bg-green-950/30": isShared,
                     }
@@ -196,7 +211,12 @@ const OpportunityCard = ({ opportunity, className }: OpportunityCardProps) => {
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button variant="outline" size="icon" onClick={handleApply}>
+                <Button 
+                  variant="outline" 
+                  size="icon" 
+                  onClick={handleApply}
+                  className="backdrop-blur-sm hover:bg-primary/10"
+                >
                   <ExternalLink className="h-4 w-4" />
                 </Button>
               </TooltipTrigger>

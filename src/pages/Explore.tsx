@@ -98,7 +98,7 @@ const Explore = () => {
             transition={{ duration: 0.5 }}
             className="text-center mb-8"
           >
-            <h1 className="text-3xl md:text-4xl font-bold mb-4">Explore Opportunities</h1>
+            <h1 className="text-3xl md:text-4xl font-bold mb-4 text-gradient-primary">Explore Opportunities</h1>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               Discover the perfect scholarship, internship, or job opportunity tailored to your skills and interests
             </p>
@@ -112,7 +112,7 @@ const Explore = () => {
             <SearchBar 
               onSearch={handleSearch} 
               isLoading={isSearching}
-              className="max-w-3xl mx-auto"
+              className="max-w-3xl mx-auto glass-card"
             />
           </motion.div>
           
@@ -124,9 +124,9 @@ const Explore = () => {
               transition={{ duration: 0.3 }}
               className="max-w-3xl mx-auto mt-6"
             >
-              <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm border border-gray-200 dark:border-gray-700">
+              <div className="glass-card rounded-lg p-4 shadow-sm border border-white/20 dark:border-gray-700/50">
                 <div className="flex items-start gap-3">
-                  <div className="bg-primary/10 rounded-full p-2 mt-1">
+                  <div className="bg-primary/10 backdrop-blur-sm rounded-full p-2 mt-1">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary">
                       <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.85.99 6.57 2.64"></path>
                       <path d="M21 3v9h-9"></path>
@@ -159,7 +159,7 @@ const Explore = () => {
       </section>
       
       {/* Opportunity Listings Section */}
-      <section className="py-12 px-4">
+      <section className="py-12 px-4 bg-gradient-to-b from-transparent to-gray-50/50 dark:to-gray-900/30">
         <div className="container mx-auto max-w-6xl">
           <div className="flex flex-col md:flex-row justify-between items-start gap-6 mb-8">
             <div>
@@ -194,7 +194,7 @@ const Explore = () => {
               onValueChange={handleTabChange}
               className="w-full"
             >
-              <TabsList className="grid grid-cols-4 max-w-md mx-auto">
+              <TabsList className="grid grid-cols-4 max-w-md mx-auto glass-card">
                 <TabsTrigger value="all" className="flex items-center gap-2">
                   <span>All</span>
                 </TabsTrigger>
@@ -224,7 +224,7 @@ const Explore = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3, delay: index * 0.05 }}
-                  className="animate-pulse bg-gray-100 dark:bg-gray-800 rounded-xl p-5 h-52 relative"
+                  className="animate-pulse glass-card rounded-xl p-5 h-52 relative overflow-hidden"
                 >
                   <div className="flex justify-between items-start">
                     <div className="flex items-center gap-2">
@@ -268,14 +268,14 @@ const Explore = () => {
             ) : (
               // No results found
               <div className="col-span-full flex flex-col items-center justify-center py-16 text-center">
-                <div className="bg-gray-100 dark:bg-gray-800 rounded-full p-4 mb-4">
+                <div className="glass-card rounded-full p-4 mb-4">
                   <Search className="h-8 w-8 text-muted-foreground" />
                 </div>
                 <h3 className="text-xl font-semibold mb-2">No results found</h3>
                 <p className="text-muted-foreground max-w-md mb-4">
                   Try adjusting your search terms or filters to find more opportunities.
                 </p>
-                <Button onClick={() => setSearchResults(mockOpportunities)}>
+                <Button onClick={() => setSearchResults(mockOpportunities)} className="glass-btn">
                   View All Opportunities
                 </Button>
               </div>
@@ -286,15 +286,15 @@ const Explore = () => {
           {searchResults.length > 0 && (
             <div className="flex justify-center mt-10">
               <div className="flex gap-2">
-                <Button variant="outline" size="icon" disabled>
+                <Button variant="outline" size="icon" disabled className="glass-card">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
                     <path d="m15 18-6-6 6-6"/>
                   </svg>
                 </Button>
-                <Button variant="outline" className="w-10 h-10 p-0">1</Button>
-                <Button variant="outline" className="w-10 h-10 p-0">2</Button>
-                <Button variant="outline" className="w-10 h-10 p-0">3</Button>
-                <Button variant="outline" size="icon">
+                <Button variant="outline" className="w-10 h-10 p-0 glass-card">1</Button>
+                <Button variant="outline" className="w-10 h-10 p-0 glass-card">2</Button>
+                <Button variant="outline" className="w-10 h-10 p-0 glass-card">3</Button>
+                <Button variant="outline" size="icon" className="glass-card">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
                     <path d="m9 18 6-6-6-6"/>
                   </svg>
