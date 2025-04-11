@@ -1,5 +1,6 @@
 
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { Menu, X, User } from "lucide-react";
@@ -12,18 +13,19 @@ const NavBar = () => {
     <header className="sticky top-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-lg border-b border-gray-200 dark:border-gray-800">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
-          <a href="/" className="flex items-center gap-2">
+          <Link to="/" className="flex items-center gap-2">
             <div className="bg-primary rounded-full h-8 w-8 flex items-center justify-center">
               <span className="text-white font-bold">C</span>
             </div>
             <span className="font-bold text-lg hidden sm:inline-block">CareerCompass AI</span>
-          </a>
+          </Link>
           
           <nav className="hidden md:flex items-center gap-6">
-            <a href="#" className="text-sm font-medium hover:text-primary transition-colors">Home</a>
-            <a href="#opportunities" className="text-sm font-medium hover:text-primary transition-colors">Opportunities</a>
-            <a href="#telegram-bot" className="text-sm font-medium hover:text-primary transition-colors">Telegram Bot</a>
-            <a href="#testimonials" className="text-sm font-medium hover:text-primary transition-colors">Testimonials</a>
+            <Link to="/" className="text-sm font-medium hover:text-primary transition-colors">Home</Link>
+            <Link to="/features" className="text-sm font-medium hover:text-primary transition-colors">Features</Link>
+            <Link to="/about" className="text-sm font-medium hover:text-primary transition-colors">About</Link>
+            <Link to="/telegram-bot" className="text-sm font-medium hover:text-primary transition-colors">Telegram Bot</Link>
+            <Link to="/dashboard" className="text-sm font-medium hover:text-primary transition-colors">Dashboard</Link>
           </nav>
           
           <div className="flex items-center gap-2">
@@ -57,34 +59,41 @@ const NavBar = () => {
         )}
       >
         <nav className="flex flex-col p-4 gap-2">
-          <a 
-            href="#" 
+          <Link 
+            to="/" 
             className="px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg"
             onClick={() => setIsOpen(false)}
           >
             Home
-          </a>
-          <a 
-            href="#opportunities" 
+          </Link>
+          <Link 
+            to="/features" 
             className="px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg"
             onClick={() => setIsOpen(false)}
           >
-            Opportunities
-          </a>
-          <a 
-            href="#telegram-bot" 
+            Features
+          </Link>
+          <Link 
+            to="/about" 
+            className="px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg"
+            onClick={() => setIsOpen(false)}
+          >
+            About
+          </Link>
+          <Link 
+            to="/telegram-bot" 
             className="px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg"
             onClick={() => setIsOpen(false)}
           >
             Telegram Bot
-          </a>
-          <a 
-            href="#testimonials" 
+          </Link>
+          <Link 
+            to="/dashboard" 
             className="px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg"
             onClick={() => setIsOpen(false)}
           >
-            Testimonials
-          </a>
+            Dashboard
+          </Link>
           
           <div className="border-t border-gray-200 dark:border-gray-700 my-2"></div>
           

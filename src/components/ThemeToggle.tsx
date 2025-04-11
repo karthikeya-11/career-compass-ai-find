@@ -10,7 +10,7 @@ interface ThemeToggleProps {
 export function ThemeToggle({ className }: ThemeToggleProps) {
   const [theme, setTheme] = useState("light");
   
-  // On mount, read the theme from localStorage or default to light
+  // On mount, read the theme from localStorage or default to system preference
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme") || 
       (window.matchMedia('(prefers-color-scheme: dark)').matches ? "dark" : "light");

@@ -1,14 +1,16 @@
 
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import NavBar from '@/components/NavBar';
 import SearchBar from '@/components/SearchBar';
 import OpportunityCard, { Opportunity } from '@/components/OpportunityCard';
 import FilterSection, { FilterOptions } from '@/components/FilterSection';
-import TelegramBotSection from '@/components/TelegramBotSection';
-import TestimonialSection from '@/components/TestimonialSection';
 import Footer from '@/components/Footer';
 import { mockOpportunities, searchMockOpportunities, filterOpportunities } from '@/data/mockData';
-import { Sparkles } from 'lucide-react';
+import { Sparkles, ArrowRight, BookOpen, Briefcase, GraduationCap, Send, MessageSquare, Globe, Zap, Award, User, Star } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Card, CardContent } from '@/components/ui/card';
 
 const Index = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -50,6 +52,25 @@ const Index = () => {
     setSearchResults(mockOpportunities.slice(0, 3));
   }, []);
 
+  const testimonials = [
+    {
+      id: 1,
+      name: "Priya Sharma",
+      avatar: "https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=100",
+      role: "Computer Science Student",
+      message: "CareerCompass AI helped me find a remote internship that perfectly matched my skills. The personalized recommendations made my job search so much easier!",
+      stars: 5,
+    },
+    {
+      id: 2,
+      name: "Rahul Verma",
+      avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=100",
+      role: "Engineering Graduate",
+      message: "I discovered a scholarship that covered my master's degree tuition through this platform. The AI understood exactly what I was looking for.",
+      stars: 5,
+    },
+  ];
+
   return (
     <div className="min-h-screen flex flex-col">
       <NavBar />
@@ -89,8 +110,61 @@ const Index = () => {
         <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-radial from-white/5 to-transparent"></div>
         <div className="absolute bottom-0 left-0 w-1/3 h-1/2 bg-gradient-radial from-white/5 to-transparent"></div>
       </section>
+
+      {/* Features Overview Section */}
+      <section className="py-20 px-4 bg-white dark:bg-gray-900">
+        <div className="container mx-auto max-w-6xl">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl font-bold mb-4">One Platform, Endless Possibilities</h2>
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+              CareerCompass AI brings together everything you need to accelerate your career journey
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="bg-gray-50 dark:bg-gray-800 p-8 rounded-xl text-center hover:shadow-md transition-shadow">
+              <div className="bg-primary/10 h-16 w-16 rounded-full flex items-center justify-center mx-auto mb-6">
+                <GraduationCap className="h-8 w-8 text-primary" />
+              </div>
+              <h3 className="text-xl font-semibold mb-3">Scholarships</h3>
+              <p className="text-muted-foreground mb-6">
+                Discover scholarships tailored to your academic achievements, field of study, and personal background.
+              </p>
+              <Link to="/features" className="text-primary font-medium flex items-center justify-center gap-1 hover:underline">
+                Learn More <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+            
+            <div className="bg-gray-50 dark:bg-gray-800 p-8 rounded-xl text-center hover:shadow-md transition-shadow">
+              <div className="bg-primary/10 h-16 w-16 rounded-full flex items-center justify-center mx-auto mb-6">
+                <Briefcase className="h-8 w-8 text-primary" />
+              </div>
+              <h3 className="text-xl font-semibold mb-3">Internships</h3>
+              <p className="text-muted-foreground mb-6">
+                Find internships that provide real-world experience in your field, whether remote or in your local area.
+              </p>
+              <Link to="/features" className="text-primary font-medium flex items-center justify-center gap-1 hover:underline">
+                Learn More <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+            
+            <div className="bg-gray-50 dark:bg-gray-800 p-8 rounded-xl text-center hover:shadow-md transition-shadow">
+              <div className="bg-primary/10 h-16 w-16 rounded-full flex items-center justify-center mx-auto mb-6">
+                <BookOpen className="h-8 w-8 text-primary" />
+              </div>
+              <h3 className="text-xl font-semibold mb-3">Jobs</h3>
+              <p className="text-muted-foreground mb-6">
+                Explore career opportunities that match your skills, experience level, and location preferences.
+              </p>
+              <Link to="/features" className="text-primary font-medium flex items-center justify-center gap-1 hover:underline">
+                Learn More <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
       
-      {/* Opportunities Section */}
+      {/* Opportunities Preview Section */}
       <section id="opportunities" className="py-16 px-4">
         <div className="container mx-auto max-w-6xl">
           <div className="flex flex-col md:flex-row justify-between items-start gap-6 mb-8">
@@ -169,20 +243,269 @@ const Index = () => {
               ))
             )}
           </div>
+          
+          <div className="text-center mt-10">
+            <Button variant="outline" size="lg" className="gap-2">
+              View All Opportunities <ArrowRight className="h-4 w-4" />
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Why Choose Us Section */}
+      <section className="py-20 px-4 bg-gray-50 dark:bg-gray-900">
+        <div className="container mx-auto max-w-6xl">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl font-bold mb-4">Why Choose CareerCompass AI?</h2>
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+              We're not just another opportunity platform
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700">
+              <div className="bg-primary/10 p-3 inline-flex rounded-lg mb-4">
+                <Zap className="h-6 w-6 text-primary" />
+              </div>
+              <h3 className="text-xl font-semibold mb-3">AI-Powered Matching</h3>
+              <p className="text-muted-foreground">
+                Our advanced algorithms analyze your skills and preferences to recommend the most relevant opportunities for you.
+              </p>
+            </div>
+            
+            <div className="bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700">
+              <div className="bg-primary/10 p-3 inline-flex rounded-lg mb-4">
+                <Globe className="h-6 w-6 text-primary" />
+              </div>
+              <h3 className="text-xl font-semibold mb-3">Regional Focus</h3>
+              <p className="text-muted-foreground">
+                We specialize in local and regional opportunities that are often overlooked by global platforms.
+              </p>
+            </div>
+            
+            <div className="bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700">
+              <div className="bg-primary/10 p-3 inline-flex rounded-lg mb-4">
+                <Send className="h-6 w-6 text-primary" />
+              </div>
+              <h3 className="text-xl font-semibold mb-3">Telegram Integration</h3>
+              <p className="text-muted-foreground">
+                Get real-time notifications and search for opportunities directly from Telegram.
+              </p>
+            </div>
+            
+            <div className="bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700">
+              <div className="bg-primary/10 p-3 inline-flex rounded-lg mb-4">
+                <Award className="h-6 w-6 text-primary" />
+              </div>
+              <h3 className="text-xl font-semibold mb-3">Exclusive Opportunities</h3>
+              <p className="text-muted-foreground">
+                Access scholarships and internships that aren't listed on other platforms through our exclusive partnerships.
+              </p>
+            </div>
+            
+            <div className="bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700">
+              <div className="bg-primary/10 p-3 inline-flex rounded-lg mb-4">
+                <MessageSquare className="h-6 w-6 text-primary" />
+              </div>
+              <h3 className="text-xl font-semibold mb-3">Personalized Guidance</h3>
+              <p className="text-muted-foreground">
+                Receive tailored advice on applications, interviews, and career development from our AI assistant.
+              </p>
+            </div>
+            
+            <div className="bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700">
+              <div className="bg-primary/10 p-3 inline-flex rounded-lg mb-4">
+                <User className="h-6 w-6 text-primary" />
+              </div>
+              <h3 className="text-xl font-semibold mb-3">Student-First Approach</h3>
+              <p className="text-muted-foreground">
+                Built by students for students, we understand the unique challenges and needs of today's learners.
+              </p>
+            </div>
+          </div>
+
+          <div className="text-center mt-10">
+            <Link to="/features">
+              <Button size="lg" className="gap-2">
+                Explore All Features <ArrowRight className="h-4 w-4" />
+              </Button>
+            </Link>
+          </div>
         </div>
       </section>
       
-      {/* Telegram Bot Section */}
-      <section id="telegram-bot">
-        <TelegramBotSection />
+      {/* Telegram Bot Section Preview */}
+      <section className="py-20 px-4">
+        <div className="container mx-auto max-w-6xl">
+          <div className="grid md:grid-cols-2 gap-10 items-center">
+            <div className="space-y-6">
+              <h2 className="text-3xl md:text-4xl font-bold">CareerCompass in Your Pocket</h2>
+              <p className="text-lg text-muted-foreground">
+                Get real-time notifications on new opportunities directly in your Telegram inbox. Never miss a deadline again!
+              </p>
+              
+              <div className="space-y-4">
+                <div className="flex gap-4 items-start">
+                  <div className="bg-primary/10 p-3 rounded-full">
+                    <Send className="h-6 w-6 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-lg">Instant Updates</h3>
+                    <p className="text-muted-foreground">Be the first to know about new opportunities as soon as they're posted.</p>
+                  </div>
+                </div>
+                
+                <div className="flex gap-4 items-start">
+                  <div className="bg-primary/10 p-3 rounded-full">
+                    <Search className="h-6 w-6 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-lg">Search On-the-Go</h3>
+                    <p className="text-muted-foreground">Find opportunities whenever and wherever you are with our smart Telegram bot.</p>
+                  </div>
+                </div>
+              </div>
+              
+              <Link to="/telegram-bot">
+                <Button className="mt-6 gap-2" size="lg">
+                  <Send className="h-4 w-4" /> Learn More About Our Bot
+                </Button>
+              </Link>
+            </div>
+            
+            <div className="relative">
+              <div className="bg-gray-100 dark:bg-gray-800 rounded-xl p-6 shadow-lg">
+                <div className="flex items-center gap-3 border-b pb-4 mb-4">
+                  <div className="bg-primary rounded-full h-10 w-10 flex items-center justify-center">
+                    <Send className="h-5 w-5 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold">CareerCompass AI</h3>
+                    <p className="text-xs text-muted-foreground">Bot</p>
+                  </div>
+                </div>
+                
+                <div className="space-y-4">
+                  <div className="bg-blue-50 dark:bg-blue-900/20 p-3 rounded-lg inline-block max-w-[80%]">
+                    Hello! I'm CareerCompass AI. What opportunities are you looking for today?
+                  </div>
+                  
+                  <div className="bg-gray-200 dark:bg-gray-700 p-3 rounded-lg inline-block max-w-[80%] ml-auto">
+                    I'm looking for remote internships in web development
+                  </div>
+                  
+                  <div className="bg-blue-50 dark:bg-blue-900/20 p-3 rounded-lg inline-block max-w-[80%]">
+                    Great! I found 5 remote web development internships. Here's the top match: <br /><br />
+                    <strong>Frontend Developer Intern</strong><br />
+                    TechSolutions Inc.<br />
+                    Remote | Deadline: May 15, 2024<br /><br />
+                    Reply with "1" to see details or "more" to see more results.
+                  </div>
+                </div>
+              </div>
+              
+              <div className="absolute -top-4 -left-4 h-full w-full bg-primary/20 rounded-xl -z-10"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Dashboard Preview */}
+      <section className="py-20 px-4 bg-gray-50 dark:bg-gray-900">
+        <div className="container mx-auto max-w-6xl">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl font-bold mb-4">Your Personal Career Dashboard</h2>
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+              Coming soon: Track your applications, manage deadlines, and get personalized recommendations
+            </p>
+          </div>
+
+          <div className="relative">
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 md:p-6 overflow-hidden">
+              <img 
+                src="https://cdn.dribbble.com/userupload/4551584/file/original-6bec1c6c01143bca1af8f3839c634e90.png?compress=1&resize=1024x768" 
+                alt="Dashboard Preview" 
+                className="w-full h-auto rounded-lg border border-gray-200 dark:border-gray-700"
+              />
+            </div>
+            <div className="absolute -bottom-6 -right-6 bg-primary/10 w-full h-full rounded-xl -z-10"></div>
+          </div>
+
+          <div className="text-center mt-12">
+            <Link to="/dashboard">
+              <Button size="lg">Preview Dashboard</Button>
+            </Link>
+          </div>
+        </div>
       </section>
       
-      {/* Testimonials Section */}
-      <section id="testimonials">
-        <TestimonialSection />
+      {/* Testimonials Preview Section */}
+      <section className="py-20 px-4">
+        <div className="container mx-auto max-w-6xl">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold mb-4">Success Stories</h2>
+            <p className="text-lg text-muted-foreground mt-4 max-w-2xl mx-auto">
+              Hear from students who found amazing opportunities through CareerCompass AI
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto">
+            {testimonials.map((testimonial) => (
+              <Card key={testimonial.id} className="bg-white dark:bg-gray-800 hover:shadow-md transition-all duration-300 border border-gray-200 dark:border-gray-700 overflow-hidden">
+                <CardContent className="p-6">
+                  <div className="flex gap-3 items-center mb-4">
+                    <Avatar>
+                      <AvatarImage src={testimonial.avatar} alt={testimonial.name} />
+                      <AvatarFallback>{testimonial.name[0]}</AvatarFallback>
+                    </Avatar>
+                    <div>
+                      <h4 className="font-semibold">{testimonial.name}</h4>
+                      <p className="text-sm text-muted-foreground">{testimonial.role}</p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex text-amber-500 mb-3">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className={`h-4 w-4 ${i < testimonial.stars ? 'fill-amber-500' : ''}`} />
+                    ))}
+                  </div>
+                  
+                  <p className="text-sm">"{testimonial.message}"</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+          
+          <div className="text-center mt-10">
+            <Link to="/about">
+              <Button variant="outline" size="lg" className="gap-2">
+                Read More Stories <ArrowRight className="h-4 w-4" />
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-16 px-4 bg-primary/10">
+        <div className="container mx-auto max-w-6xl">
+          <div className="text-center">
+            <h2 className="text-3xl font-bold mb-4">Ready to Find Your Perfect Opportunity?</h2>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
+              Join thousands of students who've discovered their path to success with CareerCompass AI.
+            </p>
+            <div className="flex flex-wrap justify-center gap-4">
+              <Button size="lg">Get Started Now</Button>
+              <Link to="/telegram-bot">
+                <Button variant="outline" size="lg" className="gap-2">
+                  <Send className="h-4 w-4" /> Connect with Bot
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </div>
       </section>
       
-      {/* Footer */}
       <Footer />
     </div>
   );
