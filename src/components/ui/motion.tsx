@@ -158,6 +158,39 @@ export const motion = {
       </h2>
     );
   },
+  
+  // Add the p component implementation
+  p: ({
+    children,
+    initial,
+    animate,
+    transition,
+    className,
+    style = {},
+    ...props
+  }: MotionProps) => {
+    const [inlineStyles, setInlineStyles] = useState<React.CSSProperties>({
+      ...style,
+      ...(initial || {}),
+      transition: `all ${(transition?.duration || 0.3)}s ${transition?.ease || 'ease'}`,
+    });
+    
+    useEffect(() => {
+      if (animate) {
+        setInlineStyles(prev => ({
+          ...prev,
+          ...animate,
+          transition: `all ${(transition?.duration || 0.3)}s ${transition?.ease || 'ease'}`,
+        }));
+      }
+    }, [animate, transition]);
+    
+    return (
+      <p className={className} style={inlineStyles} {...props}>
+        {children}
+      </p>
+    );
+  },
 };
 
 export default motion;
