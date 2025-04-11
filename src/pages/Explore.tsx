@@ -1,28 +1,20 @@
 
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
 import NavBar from '@/components/NavBar';
-import SearchBar from '@/components/SearchBar';
+import Footer from '@/components/Footer';
 import OpportunityCard, { Opportunity } from '@/components/OpportunityCard';
 import FilterSection, { FilterOptions } from '@/components/FilterSection';
-import Footer from '@/components/Footer';
 import { mockOpportunities, searchMockOpportunities, filterOpportunities } from '@/data/mockData';
-import { Search, Filter, SlidersHorizontal, MapPin, Clock, Tag, BookOpen, Briefcase, Rocket } from 'lucide-react';
+import { Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useToast } from '@/hooks/use-toast';
-import { motion } from '@/components/ui/motion';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import SearchBar from '@/components/SearchBar';
+import AIPromptSection from '@/components/AIPromptSection';
 
 const Explore = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearching, setIsSearching] = useState(false);
-  const [searchResults, setSearchResults] = useState<Opportunity[]>([]);
-  const [hasSearched, setHasSearched] = useState(false);
-  const [aiResponse, setAiResponse] = useState('');
-  const [isAiThinking, setIsAiThinking] = useState(false);
-  const [currentTab, setCurrentTab] = useState('all');
-  const { toast } = useToast();
-  
+  const [opportunities, setOpportunities] = useState<Opportunity[]>(mockOpportunities);
   const [filters, setFilters] = useState<FilterOptions>({
     types: ['scholarship', 'internship', 'job'],
     locations: [],
@@ -34,197 +26,93 @@ const Explore = () => {
   const handleSearch = (query: string) => {
     setSearchQuery(query);
     setIsSearching(true);
-    setHasSearched(true);
-    setIsAiThinking(true);
     
-    // Simulate AI thinking
+    // Simulate an API call with a delay
     setTimeout(() => {
-      setIsAiThinking(false);
-      setAiResponse(`Here are some opportunities matching "${query}". I've focused on ${getRandomFocus()} opportunities based on your search terms.`);
-      
-      // Simulate an API call with a delay
       const results = searchMockOpportunities(query);
-      setSearchResults(results);
+      setOpportunities(results);
       setIsSearching(false);
-    }, 2000);
-  };
-  
-  const getRandomFocus = () => {
-    const focuses = ['local', 'remote', 'entry-level', 'student-friendly', 'recently posted'];
-    return focuses[Math.floor(Math.random() * focuses.length)];
+    }, 1500);
   };
 
   const handleFilterChange = (newFilters: FilterOptions) => {
     setFilters(newFilters);
-    
-    if (searchResults.length) {
-      const filtered = filterOpportunities(searchResults, newFilters);
-      setSearchResults(filtered);
-      
-      toast({
-        title: "Filters applied",
-        description: `${filtered.length} opportunities match your filters.`,
-      });
-    }
+    const filtered = filterOpportunities(opportunities, newFilters);
+    setOpportunities(filtered);
   };
-  
-  const handleTabChange = (value: string) => {
-    setCurrentTab(value);
-    
-    let filteredResults = searchResults.length > 0 ? searchResults : mockOpportunities;
-    
-    if (value !== 'all') {
-      filteredResults = filteredResults.filter(opp => opp.type === value);
-    }
-    
-    setSearchResults(filteredResults);
-  };
-
-  // Load initial opportunities
-  useEffect(() => {
-    setSearchResults(mockOpportunities);
-  }, []);
 
   return (
     <div className="min-h-screen flex flex-col">
       <NavBar />
       
-      {/* Search Section */}
-      <section className="bg-gradient-to-br from-blue-50 to-purple-50 dark:from-gray-900 dark:to-gray-800 py-16 px-4">
-        <div className="container mx-auto max-w-6xl">
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="text-center mb-8"
-          >
-            <h1 className="text-3xl md:text-4xl font-bold mb-4 text-gradient-primary">Explore Opportunities</h1>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Discover the perfect scholarship, internship, or job opportunity tailored to your skills and interests
+      {/* Hero Section */}
+      <section className="hero-gradient text-white py-12 px-4 relative overflow-hidden">
+        <div className="container mx-auto max-w-6xl relative z-10">
+          <div className="text-center max-w-3xl mx-auto">
+            <h1 className="text-4xl md:text-5xl font-bold mb-6">
+              Explore Opportunities
+            </h1>
+            
+            <p className="text-xl md:text-2xl mb-8 text-white/80">
+              Discover scholarships, internships, and jobs tailored to your needs
             </p>
-          </motion.div>
-          
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-          >
+            
             <SearchBar 
               onSearch={handleSearch} 
               isLoading={isSearching}
-              className="max-w-3xl mx-auto glass-card"
+              className="max-w-3xl mx-auto"
             />
-          </motion.div>
-          
-          {/* AI Response Area */}
-          {(isAiThinking || aiResponse) && (
-            <motion.div 
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              transition={{ duration: 0.3 }}
-              className="max-w-3xl mx-auto mt-6"
-            >
-              <div className="glass-card rounded-lg p-4 shadow-sm border border-white/20 dark:border-gray-700/50">
-                <div className="flex items-start gap-3">
-                  <div className="bg-primary/10 backdrop-blur-sm rounded-full p-2 mt-1">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary">
-                      <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.85.99 6.57 2.64"></path>
-                      <path d="M21 3v9h-9"></path>
-                    </svg>
-                  </div>
-                  <div className="flex-1">
-                    <div className="flex items-center">
-                      <h3 className="font-medium">CareerCompass AI</h3>
-                    </div>
-                    <div className="mt-1">
-                      {isAiThinking ? (
-                        <div className="flex gap-1 items-center text-muted-foreground">
-                          <span>Analyzing your query</span>
-                          <span className="flex gap-1">
-                            <span className="animate-bounce delay-0">.</span>
-                            <span className="animate-bounce delay-150">.</span>
-                            <span className="animate-bounce delay-300">.</span>
-                          </span>
-                        </div>
-                      ) : (
-                        <p>{aiResponse}</p>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          )}
+          </div>
+        </div>
+        
+        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-custom-purple/10 to-transparent opacity-50"></div>
+        <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-radial from-white/5 to-transparent"></div>
+        <div className="absolute bottom-0 left-0 w-1/3 h-1/2 bg-gradient-radial from-white/5 to-transparent"></div>
+      </section>
+      
+      {/* AI Prompt Section */}
+      <section className="py-16 px-4 bg-pastel-gray/30">
+        <div className="container mx-auto max-w-6xl">
+          <AIPromptSection />
         </div>
       </section>
       
-      {/* Opportunity Listings Section */}
-      <section className="py-12 px-4 bg-gradient-to-b from-transparent to-gray-50/50 dark:to-gray-900/30">
+      {/* Opportunities Section */}
+      <section id="opportunities" className="py-16 px-4">
         <div className="container mx-auto max-w-6xl">
           <div className="flex flex-col md:flex-row justify-between items-start gap-6 mb-8">
             <div>
-              <motion.h2 
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5 }}
-                className="text-2xl md:text-3xl font-bold mb-2"
-              >
-                {hasSearched ? `Results for "${searchQuery}"` : "All Opportunities"}
-              </motion.h2>
+              <h2 className="text-2xl md:text-3xl font-bold mb-2">
+                {searchQuery ? `Results for "${searchQuery}"` : "All Opportunities"}
+              </h2>
               <p className="text-muted-foreground">
-                {searchResults.length} opportunities available
+                {`Found ${opportunities.length} opportunities`}
               </p>
             </div>
             
-            <div className="flex flex-col sm:flex-row gap-4 w-full md:w-auto">
+            <div className="flex flex-col md:flex-row gap-4 w-full md:w-auto">
+              <Select defaultValue="relevance">
+                <SelectTrigger className="w-full md:w-[180px]">
+                  <SelectValue placeholder="Sort by" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="relevance">Relevance</SelectItem>
+                  <SelectItem value="date">Newest First</SelectItem>
+                  <SelectItem value="deadline">Deadline (Soon)</SelectItem>
+                </SelectContent>
+              </Select>
+              
               <FilterSection onFilterChange={handleFilterChange} />
             </div>
           </div>
           
-          {/* Tabs */}
-          <motion.div 
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="mb-8"
-          >
-            <Tabs 
-              defaultValue="all" 
-              value={currentTab}
-              onValueChange={handleTabChange}
-              className="w-full"
-            >
-              <TabsList className="grid grid-cols-4 max-w-md mx-auto glass-card">
-                <TabsTrigger value="all" className="flex items-center gap-2">
-                  <span>All</span>
-                </TabsTrigger>
-                <TabsTrigger value="scholarship" className="flex items-center gap-2">
-                  <BookOpen className="h-4 w-4" />
-                  <span>Scholarships</span>
-                </TabsTrigger>
-                <TabsTrigger value="internship" className="flex items-center gap-2">
-                  <Briefcase className="h-4 w-4" />
-                  <span>Internships</span>
-                </TabsTrigger>
-                <TabsTrigger value="job" className="flex items-center gap-2">
-                  <Rocket className="h-4 w-4" />
-                  <span>Jobs</span>
-                </TabsTrigger>
-              </TabsList>
-            </Tabs>
-          </motion.div>
-          
-          {/* Cards */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {isSearching ? (
               // Loading skeleton
               Array.from({ length: 6 }).map((_, index) => (
-                <motion.div 
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3, delay: index * 0.05 }}
-                  className="animate-pulse glass-card rounded-xl p-5 h-52 relative overflow-hidden"
+                <div 
+                  key={index} 
+                  className="animate-pulse bg-gray-100 dark:bg-gray-800 rounded-xl p-5 h-52"
                 >
                   <div className="flex justify-between items-start">
                     <div className="flex items-center gap-2">
@@ -249,62 +137,45 @@ const Explore = () => {
                       <div className="bg-gray-200 dark:bg-gray-700 h-8 w-8 rounded-md"></div>
                     </div>
                   </div>
-                  <div className="shimmer"></div>
-                </motion.div>
+                  <div className="absolute inset-0">
+                    <div className="shimmer"></div>
+                  </div>
+                </div>
               ))
-            ) : searchResults.length > 0 ? (
-              // Search results
-              searchResults.map((opp, index) => (
-                <motion.div
-                  key={opp.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3, delay: index * 0.05 }}
-                  whileHover={{ y: -5, transition: { duration: 0.2 } }}
-                >
-                  <OpportunityCard opportunity={opp} />
-                </motion.div>
+            ) : opportunities.length > 0 ? (
+              opportunities.map((opp) => (
+                <OpportunityCard key={opp.id} opportunity={opp} />
               ))
             ) : (
-              // No results found
               <div className="col-span-full flex flex-col items-center justify-center py-16 text-center">
-                <div className="glass-card rounded-full p-4 mb-4">
+                <div className="bg-gray-100 dark:bg-gray-800 rounded-full p-4 mb-4">
                   <Search className="h-8 w-8 text-muted-foreground" />
                 </div>
                 <h3 className="text-xl font-semibold mb-2">No results found</h3>
                 <p className="text-muted-foreground max-w-md mb-4">
-                  Try adjusting your search terms or filters to find more opportunities.
+                  We couldn't find any opportunities matching your search criteria. Try changing your search terms or filters.
                 </p>
-                <Button onClick={() => setSearchResults(mockOpportunities)} className="glass-btn">
-                  View All Opportunities
+                <Button variant="outline" onClick={() => setOpportunities(mockOpportunities)}>
+                  Reset Filters
                 </Button>
               </div>
             )}
           </div>
           
-          {/* Pagination - Simple version */}
-          {searchResults.length > 0 && (
-            <div className="flex justify-center mt-10">
-              <div className="flex gap-2">
-                <Button variant="outline" size="icon" disabled className="glass-card">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
-                    <path d="m15 18-6-6 6-6"/>
-                  </svg>
-                </Button>
-                <Button variant="outline" className="w-10 h-10 p-0 glass-card">1</Button>
-                <Button variant="outline" className="w-10 h-10 p-0 glass-card">2</Button>
-                <Button variant="outline" className="w-10 h-10 p-0 glass-card">3</Button>
-                <Button variant="outline" size="icon" className="glass-card">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
-                    <path d="m9 18 6-6-6-6"/>
-                  </svg>
-                </Button>
+          {opportunities.length > 0 && (
+            <div className="mt-10 flex justify-center">
+              <div className="join">
+                <Button variant="outline" className="mx-1">1</Button>
+                <Button variant="outline" className="mx-1">2</Button>
+                <Button variant="outline" className="mx-1">3</Button>
+                <Button variant="outline" className="mx-1">...</Button>
+                <Button variant="outline" className="mx-1">8</Button>
               </div>
             </div>
           )}
         </div>
       </section>
-
+      
       <Footer />
     </div>
   );

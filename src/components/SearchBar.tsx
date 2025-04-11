@@ -4,6 +4,7 @@ import { Search } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
+import { Input } from '@/components/ui/input';
 
 interface SearchBarProps {
   onSearch: (query: string) => void;
@@ -75,11 +76,11 @@ const SearchBar = ({ onSearch, isLoading = false, className }: SearchBarProps) =
   return (
     <form onSubmit={handleSubmit} className={cn("relative w-full max-w-3xl", className)}>
       <div className="relative flex items-center">
-        <input
+        <Input
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          className="w-full px-4 py-4 pl-12 text-lg bg-white/80 dark:bg-gray-800/80 backdrop-blur-md border border-gray-200/50 dark:border-gray-700/30 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200"
+          className="w-full px-4 py-6 pl-12 text-lg bg-white/80 dark:bg-gray-800/80 backdrop-blur-md border border-gray-200/50 dark:border-gray-700/30 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200"
           placeholder={query === '' ? typingEffect : "What are you looking for?"}
         />
         {query === '' && (

@@ -1,56 +1,17 @@
-
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import NavBar from '@/components/NavBar';
 import SearchBar from '@/components/SearchBar';
-import OpportunityCard, { Opportunity } from '@/components/OpportunityCard';
-import FilterSection, { FilterOptions } from '@/components/FilterSection';
 import Footer from '@/components/Footer';
-import { mockOpportunities, searchMockOpportunities, filterOpportunities } from '@/data/mockData';
 import { Sparkles, ArrowRight, BookOpen, Briefcase, GraduationCap, Send, MessageSquare, Globe, Zap, Award, User, Star, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Card, CardContent } from '@/components/ui/card';
 
 const Index = () => {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [isSearching, setIsSearching] = useState(false);
-  const [searchResults, setSearchResults] = useState<Opportunity[]>([]);
-  const [hasSearched, setHasSearched] = useState(false);
-  const [filters, setFilters] = useState<FilterOptions>({
-    types: ['scholarship', 'internship', 'job'],
-    locations: [],
-    maxDistance: 50,
-    deadlineRange: 30,
-    sortBy: 'relevance',
-  });
-
   const handleSearch = (query: string) => {
-    setSearchQuery(query);
-    setIsSearching(true);
-    setHasSearched(true);
-    
-    // Simulate an API call with a delay
-    setTimeout(() => {
-      const results = searchMockOpportunities(query);
-      setSearchResults(results);
-      setIsSearching(false);
-    }, 1500);
+    window.location.href = `/explore?q=${encodeURIComponent(query)}`;
   };
-
-  const handleFilterChange = (newFilters: FilterOptions) => {
-    setFilters(newFilters);
-    
-    if (searchResults.length) {
-      const filtered = filterOpportunities(searchResults, newFilters);
-      setSearchResults(filtered);
-    }
-  };
-
-  // Load some initial opportunities on first render
-  useEffect(() => {
-    setSearchResults(mockOpportunities.slice(0, 3));
-  }, []);
 
   const testimonials = [
     {
@@ -99,9 +60,21 @@ const Index = () => {
             
             <SearchBar 
               onSearch={handleSearch} 
-              isLoading={isSearching}
               className="max-w-3xl mx-auto"
             />
+            
+            <div className="mt-8 flex flex-wrap justify-center gap-4">
+              <Link to="/explore">
+                <Button size="lg" className="gap-2">
+                  Explore Opportunities <Search className="h-4 w-4" />
+                </Button>
+              </Link>
+              <Link to="/telegram-bot">
+                <Button variant="outline" size="lg" className="gap-2 bg-white/10">
+                  <Send className="h-4 w-4" /> Try Our Telegram Bot
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
         
@@ -164,94 +137,6 @@ const Index = () => {
         </div>
       </section>
       
-      {/* Opportunities Preview Section */}
-      <section id="opportunities" className="py-16 px-4">
-        <div className="container mx-auto max-w-6xl">
-          <div className="flex flex-col md:flex-row justify-between items-start gap-6 mb-8">
-            <div>
-              <h2 className="text-2xl md:text-3xl font-bold mb-2">
-                {hasSearched ? `Results for "${searchQuery}"` : "Recommended Opportunities"}
-              </h2>
-              <p className="text-muted-foreground">
-                {hasSearched 
-                  ? `Found ${searchResults.length} opportunities matching your search`
-                  : "Explore these hand-picked opportunities for you"}
-              </p>
-            </div>
-            
-            <FilterSection onFilterChange={handleFilterChange} />
-          </div>
-          
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {isSearching ? (
-              // Loading skeleton
-              Array.from({ length: 3 }).map((_, index) => (
-                <div 
-                  key={index} 
-                  className="animate-pulse bg-gray-100 dark:bg-gray-800 rounded-xl p-5 h-52"
-                >
-                  <div className="flex justify-between items-start">
-                    <div className="flex items-center gap-2">
-                      <div className="bg-gray-200 dark:bg-gray-700 rounded-full h-10 w-10"></div>
-                      <div>
-                        <div className="bg-gray-200 dark:bg-gray-700 h-5 w-32 rounded-md mb-2"></div>
-                        <div className="bg-gray-200 dark:bg-gray-700 h-3 w-20 rounded-md"></div>
-                      </div>
-                    </div>
-                    <div className="bg-gray-200 dark:bg-gray-700 h-6 w-24 rounded-full"></div>
-                  </div>
-                  
-                  <div className="mt-4 space-y-2">
-                    <div className="bg-gray-200 dark:bg-gray-700 h-4 w-full rounded-md"></div>
-                    <div className="bg-gray-200 dark:bg-gray-700 h-4 w-full rounded-md"></div>
-                  </div>
-                  
-                  <div className="mt-6 flex justify-between items-center">
-                    <div className="bg-gray-200 dark:bg-gray-700 h-8 w-24 rounded-md"></div>
-                    <div className="flex gap-2">
-                      <div className="bg-gray-200 dark:bg-gray-700 h-8 w-8 rounded-md"></div>
-                      <div className="bg-gray-200 dark:bg-gray-700 h-8 w-8 rounded-md"></div>
-                    </div>
-                  </div>
-                  <div className="absolute inset-0">
-                    <div className="shimmer"></div>
-                  </div>
-                </div>
-              ))
-            ) : searchResults.length > 0 ? (
-              // Search results
-              searchResults.map((opp) => (
-                <OpportunityCard key={opp.id} opportunity={opp} />
-              ))
-            ) : hasSearched ? (
-              // No results found
-              <div className="col-span-full flex flex-col items-center justify-center py-16 text-center">
-                <div className="bg-gray-100 dark:bg-gray-800 rounded-full p-4 mb-4">
-                  <svg className="h-8 w-8 text-muted-foreground" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.5 15.5l-3-3m0 0l-3 3m3-3v9m0-9H12a9 9 0 11-9-9h16.5" />
-                  </svg>
-                </div>
-                <h3 className="text-xl font-semibold mb-2">No results found</h3>
-                <p className="text-muted-foreground max-w-md mb-4">
-                  We couldn't find any opportunities matching your search criteria. Try changing your search terms or filters.
-                </p>
-              </div>
-            ) : (
-              // Initial state
-              mockOpportunities.slice(0, 3).map((opp) => (
-                <OpportunityCard key={opp.id} opportunity={opp} />
-              ))
-            )}
-          </div>
-          
-          <div className="text-center mt-10">
-            <Button variant="outline" size="lg" className="gap-2">
-              View All Opportunities <ArrowRight className="h-4 w-4" />
-            </Button>
-          </div>
-        </div>
-      </section>
-
       {/* Why Choose Us Section */}
       <section className="py-20 px-4 bg-gray-50 dark:bg-gray-900">
         <div className="container mx-auto max-w-6xl">
@@ -495,7 +380,9 @@ const Index = () => {
               Join thousands of students who've discovered their path to success with CareerCompass AI.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
-              <Button size="lg">Get Started Now</Button>
+              <Link to="/explore">
+                <Button size="lg">Get Started Now</Button>
+              </Link>
               <Link to="/telegram-bot">
                 <Button variant="outline" size="lg" className="gap-2">
                   <Send className="h-4 w-4" /> Connect with Bot
