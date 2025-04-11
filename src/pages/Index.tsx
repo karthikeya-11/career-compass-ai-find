@@ -7,7 +7,7 @@ import OpportunityCard, { Opportunity } from '@/components/OpportunityCard';
 import FilterSection, { FilterOptions } from '@/components/FilterSection';
 import Footer from '@/components/Footer';
 import { mockOpportunities, searchMockOpportunities, filterOpportunities } from '@/data/mockData';
-import { Sparkles, ArrowRight, BookOpen, Briefcase, GraduationCap, Send, MessageSquare, Globe, Zap, Award, User, Star } from 'lucide-react';
+import { Sparkles, ArrowRight, BookOpen, Briefcase, GraduationCap, Send, MessageSquare, Globe, Zap, Award, User, Star, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Card, CardContent } from '@/components/ui/card';
