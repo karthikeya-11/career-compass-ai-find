@@ -22,6 +22,7 @@ const NavBar = () => {
           
           <nav className="hidden md:flex items-center gap-6">
             <Link to="/" className="text-sm font-medium hover:text-primary transition-colors">Home</Link>
+            <Link to="/explore" className="text-sm font-medium hover:text-primary transition-colors">Explore Opportunities</Link>
             <Link to="/features" className="text-sm font-medium hover:text-primary transition-colors">Features</Link>
             <Link to="/about" className="text-sm font-medium hover:text-primary transition-colors">About</Link>
             <Link to="/telegram-bot" className="text-sm font-medium hover:text-primary transition-colors">Telegram Bot</Link>
@@ -65,6 +66,13 @@ const NavBar = () => {
             onClick={() => setIsOpen(false)}
           >
             Home
+          </Link>
+          <Link 
+            to="/explore" 
+            className="px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg"
+            onClick={() => setIsOpen(false)}
+          >
+            Explore Opportunities
           </Link>
           <Link 
             to="/features" 
