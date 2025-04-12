@@ -11,6 +11,7 @@ import TelegramBot from "./pages/TelegramBot";
 import About from "./pages/About";
 import Features from "./pages/Features";
 import Explore from "./pages/Explore";
+import Jobs from "./pages/Jobs";
 import ScrollToTop from "./components/ScrollToTop";
 
 const queryClient = new QueryClient();
@@ -29,6 +30,7 @@ const App = () => (
           <Route path="/about" element={<About />} />
           <Route path="/features" element={<Features />} />
           <Route path="/explore" element={<Explore />} />
+          <Route path="/jobs" element={<Jobs />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ThemeToggle";
-import { Menu, X, User } from "lucide-react";
+import { Menu, X, User, Briefcase } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const NavBar = () => {
@@ -23,6 +23,9 @@ const NavBar = () => {
           <nav className="hidden md:flex items-center gap-6">
             <Link to="/" className="text-sm font-medium hover:text-primary transition-colors">Home</Link>
             <Link to="/explore" className="text-sm font-medium hover:text-primary transition-colors">Explore Opportunities</Link>
+            <Link to="/jobs" className="text-sm font-medium hover:text-primary transition-colors flex items-center gap-1">
+              <Briefcase className="h-4 w-4" /> Jobs
+            </Link>
             <Link to="/features" className="text-sm font-medium hover:text-primary transition-colors">Features</Link>
             <Link to="/about" className="text-sm font-medium hover:text-primary transition-colors">About</Link>
             <Link to="/telegram-bot" className="text-sm font-medium hover:text-primary transition-colors">Telegram Bot</Link>
@@ -73,6 +76,13 @@ const NavBar = () => {
             onClick={() => setIsOpen(false)}
           >
             Explore Opportunities
+          </Link>
+          <Link 
+            to="/jobs" 
+            className="px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg flex items-center gap-2"
+            onClick={() => setIsOpen(false)}
+          >
+            <Briefcase className="h-4 w-4" /> Jobs
           </Link>
           <Link 
             to="/features" 
