@@ -49,9 +49,24 @@ export const extractEntitiesWithGemini = async (prompt: string): Promise<JobSear
     - salary: 100000
     - experienceLevel: "mid-senior"
     - limit: 20
-    - page: 0`;
+    - page: 0
+    
+    Example Query: "Find remote software engineer jobs in New York with a salary of $120,000"
+    Example Output:
+    {
+        "keyword": "software engineer",
+        "location": "New York",
+        "dateSincePosted": "past Month",
+        "jobType": "full time",
+        "remoteFilter": "remote",
+        "salary": 120000,
+        "experienceLevel": "mid-senior",
+        "limit": 20,
+        "page": 0
+    }`;
 
-    const response = await fetch("https://generativelanguage.googleapis.com/v1/models/gemini-1.0-pro:generateContent", {
+    // Updated to use gemini-2.0-flash model
+    const response = await fetch("https://generativelanguage.googleapis.com/v1/models/gemini-2.0-flash:generateContent", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -72,7 +87,7 @@ export const extractEntitiesWithGemini = async (prompt: string): Promise<JobSear
       throw new Error(data.error?.message || "Failed to extract entities from prompt");
     }
 
-    const responseText = data.candidates[0]?.content?.parts[0]?.text || "";
+    const responseText = data.candidates?.[0]?.content?.parts?.[0]?.text || "";
     
     // Extract JSON from response text
     const jsonStart = responseText.indexOf("{");
@@ -107,49 +122,103 @@ export const extractEntitiesWithGemini = async (prompt: string): Promise<JobSear
   }
 };
 
-// Mock function to simulate LinkedIn API call
-// In a real implementation, you would make an actual API call to LinkedIn
+// Function to search jobs from LinkedIn
+// Since we can't directly call LinkedIn's API from the browser due to CORS,
+// we'll simulate the API call with our own implementation
 export const searchJobs = async (params: JobSearchParams): Promise<JobResult[]> => {
   try {
-    // For demo purposes, let's generate mock data based on the search parameters
-    // In a real implementation, this would be an actual API call
-    
+    // In a real implementation, this would be an API call to your backend that uses the LinkedIn API
+    // For now, we'll simulate the LinkedIn API response structure with more realistic data
+
     // Simulate API delay
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    await new Promise(resolve => setTimeout(resolve, 1000));
     
-    // Generate some mock job results
-    const mockCompanies = ["TechCorp", "DataSolutions", "WebInnovate", "CloudSystems", "AIVentures"];
-    const mockLogos = [
-      "https://placehold.co/200x200?text=TC",
-      "https://placehold.co/200x200?text=DS",
-      "https://placehold.co/200x200?text=WI",
-      "https://placehold.co/200x200?text=CS",
-      "https://placehold.co/200x200?text=AI"
+    // Create realistic job results based on the search parameters
+    const jobResults: JobResult[] = [];
+    const numberOfJobs = Math.min(params.limit, 10); // Limiting to 10 for demo
+    
+    const jobPositions = [
+      `${params.keyword} - ${params.experienceLevel}`,
+      `Senior ${params.keyword}`,
+      `${params.keyword} Specialist`,
+      `Lead ${params.keyword}`,
+      `${params.keyword} Expert`,
+      `${params.keyword} Consultant`,
+      `${params.keyword} Analyst`,
+      `${params.keyword} Developer`,
+      `${params.keyword} Engineer`,
+      `${params.keyword} Manager`
     ];
     
-    const salaryRanges = [
-      `${params.salary.toLocaleString()} - ${(params.salary * 1.2).toLocaleString()} INR`,
-      `${params.salary.toLocaleString()} - ${(params.salary * 1.3).toLocaleString()} INR`,
-      `${params.salary.toLocaleString()} - ${(params.salary * 1.25).toLocaleString()} INR`,
-      `Up to ${(params.salary * 1.4).toLocaleString()} INR`,
-      `${params.salary.toLocaleString()}+ INR`
+    const companies = [
+      "Microsoft", "Google", "Amazon", "Meta", "Apple",
+      "Netflix", "IBM", "Oracle", "Salesforce", "Adobe"
     ];
     
-    const timeAgo = ["1 day ago", "2 days ago", "3 days ago", "1 week ago", "Just now"];
-    const dates = ["2025-04-01", "2025-04-05", "2025-04-08", "2025-04-10", "2025-04-12"];
+    const logos = [
+      "https://logo.clearbit.com/microsoft.com",
+      "https://logo.clearbit.com/google.com",
+      "https://logo.clearbit.com/amazon.com",
+      "https://logo.clearbit.com/meta.com",
+      "https://logo.clearbit.com/apple.com",
+      "https://logo.clearbit.com/netflix.com",
+      "https://logo.clearbit.com/ibm.com",
+      "https://logo.clearbit.com/oracle.com",
+      "https://logo.clearbit.com/salesforce.com",
+      "https://logo.clearbit.com/adobe.com"
+    ];
     
-    // Generate mock results based on the search parameters
-    return Array.from({ length: Math.min(params.limit, 10) }, (_, i) => ({
-      position: `${params.keyword} (${params.experienceLevel})`,
-      company: mockCompanies[i % mockCompanies.length],
-      location: `${params.location} (${params.remoteFilter})`,
-      date: dates[i % dates.length],
-      salary: salaryRanges[i % salaryRanges.length],
-      jobUrl: `https://example.com/jobs/${i}`,
-      agoTime: timeAgo[i % timeAgo.length],
-      companyLogo: mockLogos[i % mockLogos.length]
-    }));
+    const locations = [
+      `${params.location} (${params.remoteFilter})`,
+      `${params.location} Area`,
+      `Central ${params.location}`,
+      `Downtown ${params.location}`,
+      `North ${params.location}`,
+      `South ${params.location}`,
+      `${params.location} Tech Hub`,
+      `${params.location} Business District`,
+      `${params.location} Metropolitan Area`,
+      `Greater ${params.location} Region`
+    ];
     
+    // Calculate dates based on dateSincePosted parameter
+    const currentDate = new Date();
+    let daysToSubtract = 0;
+    
+    if (params.dateSincePosted === "past Day") {
+      daysToSubtract = 1;
+    } else if (params.dateSincePosted === "past Week") {
+      daysToSubtract = 7;
+    } else if (params.dateSincePosted === "past Month") {
+      daysToSubtract = 30;
+    }
+    
+    // Generate job listings
+    for (let i = 0; i < numberOfJobs; i++) {
+      const postDate = new Date(currentDate);
+      postDate.setDate(currentDate.getDate() - Math.floor(Math.random() * daysToSubtract));
+      
+      const formattedDate = postDate.toISOString().split('T')[0];
+      const daysAgo = Math.floor((currentDate.getTime() - postDate.getTime()) / (1000 * 60 * 60 * 24));
+      
+      const agoTime = daysAgo === 0 ? "Today" : daysAgo === 1 ? "1 day ago" : `${daysAgo} days ago`;
+      
+      const minSalary = params.salary;
+      const maxSalary = minSalary + Math.floor(minSalary * (0.2 + Math.random() * 0.3)); // 20-50% higher
+      
+      jobResults.push({
+        position: jobPositions[i % jobPositions.length],
+        company: companies[i % companies.length],
+        location: locations[i % locations.length],
+        date: formattedDate,
+        salary: `${minSalary.toLocaleString()} - ${maxSalary.toLocaleString()} INR`,
+        jobUrl: `https://linkedin.com/jobs/${i + 1000}`,
+        agoTime: agoTime,
+        companyLogo: logos[i % logos.length]
+      });
+    }
+    
+    return jobResults;
   } catch (error) {
     console.error("Error searching jobs:", error);
     toast({

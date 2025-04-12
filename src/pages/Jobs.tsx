@@ -3,7 +3,7 @@ import React from 'react';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
 import JobSearch from '@/components/JobSearch';
-import { Briefcase } from 'lucide-react';
+import { Briefcase, Linkedin } from 'lucide-react';
 
 const Jobs = () => {
   return (
@@ -14,12 +14,16 @@ const Jobs = () => {
       <section className="hero-gradient text-white py-12 px-4 relative overflow-hidden">
         <div className="container mx-auto max-w-6xl relative z-10">
           <div className="text-center max-w-3xl mx-auto">
+            <div className="flex items-center justify-center gap-2 mb-4">
+              <Linkedin className="h-6 w-6 text-white" />
+              <span className="font-medium">LinkedIn Powered</span>
+            </div>
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
               Find Your Dream Job
             </h1>
             
             <p className="text-xl md:text-2xl mb-8 text-white/80">
-              Search for jobs powered by LinkedIn and AI
+              Search for jobs using natural language powered by AI
             </p>
           </div>
         </div>
@@ -35,7 +39,7 @@ const Jobs = () => {
           <div className="flex items-center justify-center gap-2 mb-8">
             <Briefcase className="h-6 w-6 text-primary" />
             <h2 className="text-2xl md:text-3xl font-bold text-center">
-              Search Jobs
+              Search LinkedIn Jobs with AI
             </h2>
           </div>
           
@@ -65,7 +69,7 @@ const Jobs = () => {
             
             <div className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-md p-6 rounded-xl shadow-sm border border-gray-200/50 dark:border-gray-700/50">
               <div className="bg-primary/10 w-12 h-12 flex items-center justify-center rounded-full mb-4">
-                <Briefcase className="h-6 w-6 text-primary" />
+                <Linkedin className="h-6 w-6 text-primary" />
               </div>
               <h3 className="text-xl font-semibold mb-2">LinkedIn Integration</h3>
               <p className="text-muted-foreground">
